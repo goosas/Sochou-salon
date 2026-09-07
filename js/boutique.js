@@ -1,47 +1,7 @@
 /* =========================================================
    SOCHOU HAIR BEAUTY SALON - Boutique
-   Rendu du catalogue, détails produits et commandes
+   Détails produits et commandes (chargement dynamique depuis Firestore)
    ========================================================= */
-
-/* ---------- Rendu du catalogue depuis la base locale ---------- */
-(function renderCatalog() {
-  if (!window.SochouData) return;
-
-  var products = window.SochouData.getProducts();
-  var grids = {
-    cosmetiques: document.getElementById("grid-cosmetiques"),
-    meches: document.getElementById("grid-meches"),
-    perruques: document.getElementById("grid-perruques"),
-    outils: document.getElementById("grid-outils")
-  };
-
-  products.forEach(function (product) {
-    var grid = grids[product.categorie] || grids.cosmetiques;
-    if (!grid) return;
-
-    var name = window.SochouData.escapeHtml(product.nom);
-    var desc = window.SochouData.escapeHtml(product.description);
-    var price = window.SochouData.formatPrice(product.prix);
-    var chars = (product.caracteristiques || []).join("|").replace(/"/g, "&quot;");
-    var image = window.SochouData.resolveImagePath(product.image || "images/produits/huile de coco.jpeg");
-
-    var card =
-      '<article class="card product-card" data-nom="' + name + '" data-prix="' + product.prix + '" data-caracteristiques="' + chars + '">' +
-        '<div class="card-media"><img src="' + image + '" alt="' + name + '"></div>' +
-        '<div class="card-body">' +
-          '<h3 class="product-name">' + name + '</h3>' +
-          '<p class="product-price">Prix unitaire : <strong>' + price + ' FCFA</strong></p>' +
-          '<p class="product-desc">' + desc + '</p>' +
-          '<div class="product-actions">' +
-            '<button class="btn btn-outline-dark" type="button" data-details>Détails</button>' +
-            '<button class="btn btn-primary" type="button" data-commander>Commander</button>' +
-          '</div>' +
-        '</div>' +
-      '</article>';
-
-    grid.insertAdjacentHTML("beforeend", card);
-  });
-})();
 
 const detailsModal = document.getElementById("details-modal");
 const orderModal = document.getElementById("order-modal");
@@ -89,11 +49,13 @@ if (detailsModal) {
     openModal(detailsModal);
   };
 
-  document.querySelectorAll("[data-details]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const card = button.closest(".product-card");
+  // Délégation d'événements pour les boutons Détails
+  document.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-details]");
+    if (btn) {
+      const card = btn.closest(".product-card");
       if (card) openDetails(card);
-    });
+    }
   });
 
   if (detailsOrder) {
@@ -128,11 +90,13 @@ if (orderModal) {
     setTimeout(() => orderPhone.focus(), 80);
   };
 
-  document.querySelectorAll("[data-commander]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const card = button.closest(".product-card");
+  // Délégation d'événements pour les boutons Commander
+  document.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-commander]");
+    if (btn) {
+      const card = btn.closest(".product-card");
       if (card) loadOrder(card);
-    });
+    }
   });
 
   orderQuantity.addEventListener("input", updateTotal);
@@ -141,27 +105,61 @@ if (orderModal) {
     event.preventDefault();
 
     const quantity = parseInt(orderQuantity.value, 10) || 1;
+    const total = quantity * currentUnitPrice;
+    const submitBtn = orderForm.querySelector("button[type='submit']");
 
-    if (window.SochouData) {
-      window.SochouData.addOrder({
-        id: window.SochouData.uid(),
-        article: orderArticle.value,
-        phone: orderPhone.value.trim(),
-        quantite: quantity,
-        total: quantity * currentUnitPrice,
-        date: new Date().toISOString(),
-        statut: "Nouvelle"
-      });
+    const data = {
+      nomClient: "Client boutique",
+      telephone: orderPhone.value.trim(),
+      produit: orderArticle.value,
+      quantite: quantity,
+      prixUnitaire: currentUnitPrice,
+      total: total,
+      message: ""
+    };
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Envoi en cours...";
     }
 
-    orderForm.reset();
-    closeModal(orderModal);
-
-    if (window.SochouData && window.SochouData.showThankYou) {
-      window.SochouData.showThankYou(
-        "Merci pour votre commande !",
-        "Nous avons bien reçu votre demande et nous vous contacterons très rapidement pour la finaliser. Nous espérons que nos produits vous apporteront entière satisfaction et restons à votre écoute."
-      );
+    if (window.SochouCommandes) {
+      window.SochouCommandes.createCommande(data).then(() => {
+        orderForm.reset();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Lancer ma commande";
+        }
+        closeModal(orderModal);
+        if (window.SochouData && window.SochouData.showThankYou) {
+          window.SochouData.showThankYou(
+            "Merci pour votre commande !",
+            "Nous avons bien reçu votre demande et nous vous contacterons très rapidement pour la finaliser."
+          );
+        }
+      }).catch((err) => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Lancer ma commande";
+        }
+        closeModal(orderModal);
+        if (window.SochouData && window.SochouData.showToast) {
+          window.SochouData.showToast("Erreur lors de l'envoi : " + err.message, "error");
+        }
+      });
+    } else {
+      orderForm.reset();
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Lancer ma commande";
+      }
+      closeModal(orderModal);
+      if (window.SochouData && window.SochouData.showThankYou) {
+        window.SochouData.showThankYou(
+          "Merci pour votre commande !",
+          "Nous avons bien reçu votre demande et nous vous contacterons très rapidement pour la finaliser."
+        );
+      }
     }
   });
 }

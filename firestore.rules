@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========== FONCTIONS UTITAIRES ==========
+
+    // Vérifie si l'utilisateur est authentifié
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Vérifie que le statut fait partie des valeurs autorisées
+    function isValidStatut(statut) {
+      return statut in ['en_attente', 'confirme', 'annule', 'termine'];
+    }
+
+    // Vérifie que le chemin d'image est relatif et commence par "images/"
+    function isValidImagePath(path) {
+      return path is string
+        && path.size() > 0
+        && path.size() < 500
+        && path.matches('images/.*')
+        && !path.matches('.*\\.\\..*')
+        && !path.matches('.*:.*');
+    }
+
+    // ========== COLLECTION : service ==========
+    // Lecture : tous (visiteurs + admin)
+    // Écriture : admin uniquement
+    match /service/{serviceId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // ========== COLLECTION : galerie ==========
+    // Lecture : tous (visiteurs + admin)
+    // Écriture : admin uniquement
+    match /galerie/{galerieId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // ========== COLLECTION : rendez-vous ==========
+    // Lecture : admin uniquement
+    // Création : tout le monde (formulaire public)
+    // Mise à jour / Suppression : admin uniquement
+    match /rendez-vous/{rdvId} {
+      allow read: if isAuthenticated();
+      allow create: if true;
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // ========== COLLECTION : informations_generales ==========
+    // Lecture : tous
+    // Écriture : admin uniquement
+    match /informations_generales/{docId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // ========== COLLECTION : produit ==========
+    // Lecture : tous (visiteurs + admin)
+    // Écriture : admin uniquement
+    match /produit/{produitId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // ========== COLLECTION : commande ==========
+    // Lecture : admin uniquement
+    // Création : tout le monde (formulaire public boutique)
+    // Mise à jour / Suppression : admin uniquement
+    match /commande/{commandeId} {
+      allow read: if isAuthenticated();
+      allow create: if true;
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // ========== PAR DÉFEND : refuser tout ==========
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

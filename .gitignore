@@ -1,0 +1,22 @@
+# Dépendances
+node_modules/
+
+# Fichiers environnement (peuvent contenir des secrets locaux)
+.env
+.env.local
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Fichiers temporaires
+*.tmp
+*.swp

@@ -1,0 +1,171 @@
+{
+  "logo": [
+    {
+      "chemin": "images/logo/logo.png",
+      "nom": "logo.png",
+      "dossier": "logo"
+    }
+  ],
+  "services": [
+    {
+      "chemin": "images/services/coiffures.png",
+      "nom": "coiffures.png",
+      "dossier": "services"
+    },
+    {
+      "chemin": "images/services/manucure.png",
+      "nom": "manucure.png",
+      "dossier": "services"
+    },
+    {
+      "chemin": "images/services/pedicure.png",
+      "nom": "pedicure.png",
+      "dossier": "services"
+    },
+    {
+      "chemin": "images/services/perruque.png",
+      "nom": "perruque.png",
+      "dossier": "services"
+    },
+    {
+      "chemin": "images/services/pose-perruque.png",
+      "nom": "pose-perruque.png",
+      "dossier": "services"
+    },
+    {
+      "chemin": "images/services/soins-capillaires.jpeg",
+      "nom": "soins-capillaires.jpeg",
+      "dossier": "services"
+    },
+    {
+      "chemin": "images/services/tresse.png",
+      "nom": "tresse.png",
+      "dossier": "services"
+    }
+  ],
+  "galerie": [
+    {
+      "chemin": "images/galerie/cliente-01.jpeg",
+      "nom": "cliente-01.jpeg",
+      "dossier": "galerie"
+    },
+    {
+      "chemin": "images/galerie/cliente-02.jpeg",
+      "nom": "cliente-02.jpeg",
+      "dossier": "galerie"
+    },
+    {
+      "chemin": "images/galerie/cliente-03.jpeg",
+      "nom": "cliente-03.jpeg",
+      "dossier": "galerie"
+    },
+    {
+      "chemin": "images/galerie/cliente-04.jpeg",
+      "nom": "cliente-04.jpeg",
+      "dossier": "galerie"
+    },
+    {
+      "chemin": "images/galerie/cliente-05.jpeg",
+      "nom": "cliente-05.jpeg",
+      "dossier": "galerie"
+    },
+    {
+      "chemin": "images/galerie/cliente-06.jpeg",
+      "nom": "cliente-06.jpeg",
+      "dossier": "galerie"
+    },
+    {
+      "chemin": "images/galerie/cliente-07.jpeg",
+      "nom": "cliente-07.jpeg",
+      "dossier": "galerie"
+    },
+    {
+      "chemin": "images/galerie/coiffure 1.png",
+      "nom": "coiffure 1.png",
+      "dossier": "galerie"
+    },
+    {
+      "chemin": "images/galerie/coiffure 2.png",
+      "nom": "coiffure 2.png",
+      "dossier": "galerie"
+    }
+  ],
+  "hero": [
+    {
+      "chemin": "images/hero/apropos.png",
+      "nom": "apropos.png",
+      "dossier": "hero"
+    },
+    {
+      "chemin": "images/hero/propos.jpeg",
+      "nom": "propos.jpeg",
+      "dossier": "hero"
+    },
+    {
+      "chemin": "images/hero/arriere-plan1.png",
+      "nom": "arriere-plan1.png",
+      "dossier": "hero"
+    },
+    {
+      "chemin": "images/hero/arriere-plan2.png",
+      "nom": "arriere-plan2.png",
+      "dossier": "hero"
+    }
+  ],
+  "produits": [
+    {
+      "chemin": "images/produits/accessoires-de-beauté.jpeg",
+      "nom": "accessoires-de-beauté.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/huile de coco.jpeg",
+      "nom": "huile de coco.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/mèches blondes.jpeg",
+      "nom": "mèches blondes.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/mèches brésiliennes.jpeg",
+      "nom": "mèches brésiliennes.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/mèches synthétiques.jpeg",
+      "nom": "mèches synthétiques.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/outils-esthetiques.jpeg",
+      "nom": "outils-esthetiques.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/perruque courte.jpeg",
+      "nom": "perruque courte.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/perruque longue.jpeg",
+      "nom": "perruque longue.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/savon peau douce.jpeg",
+      "nom": "savon peau douce.jpeg",
+      "dossier": "produits"
+    },
+    {
+      "chemin": "images/produits/savon visage.jpeg",
+      "nom": "savon visage.jpeg",
+      "dossier": "produits"
+    }
+  ],
+  "_meta": {
+    "description": "Manifeste des images disponibles dans le projet Sochou Salon. Utilisé par l'administration pour la sélection d'images.",
+    "mise_a_jour": "2026-01-09"
+  }
+}

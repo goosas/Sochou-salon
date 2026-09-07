@@ -9,6 +9,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/pwa.css">
+  <meta name="theme-color" content="#1A1A1A">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../icons/icon-512x512.png">
+  <link rel="apple-touch-icon" href="../icons/icon-192x192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SOCHOU Salon">
 </head>
 <body>
   <header class="site-header">
@@ -33,6 +42,7 @@
           <li><a class="nav-link active" href="boutique.html">Boutique</a></li>
           <li><a class="nav-link" href="galerie.html">Galerie</a></li>
           <li><a class="nav-link" href="contact.html">Contact</a></li>
+          <li><a class="nav-link" href="admin/login.html">Admin</a></li>
         </ul>
         <a class="btn btn-primary" href="contact.html" data-appointment>Prendre rendez-vous</a>
       </nav>
@@ -40,62 +50,20 @@
   </header>
   <main>
     <section class="page-hero"><div class="container"><span class="section-kicker">Boutique beauté</span><h1>Nos produits</h1><p>Une sélection de produits et accessoires pour prolonger l'expérience SOCHOU à la maison.</p></div></section>
-    <nav class="category-nav" aria-label="Catégories de produits">
-      <a class="category-chip" href="#produits-cosmetiques">Produits cosmétiques</a>
-      <a class="category-chip" href="#meches">Mèches</a>
-      <a class="category-chip" href="#perruques">Perruques</a>
-      <a class="category-chip" href="#outils-esthetique">Outils d'esthétique</a>
-    </nav>
-
-    <section class="section light-band shop-category" id="produits-cosmetiques">
-      <div class="container">
-        <div class="section-heading">
-          <span class="section-kicker">Catégorie 01</span>
-          <h2>Produits cosmétiques</h2>
-          <p>Des soins naturels pour la peau et les cheveux, sélectionnés avec attention.</p>
-        </div>
-        <div class="grid grid-3" id="grid-cosmetiques"></div>
+    <section class="section"><div class="container">
+      <div class="category-filter" id="produits-filter">
+        <!-- Les boutons de filtre sont générés dynamiquement par site-public.js -->
       </div>
-    </section>
-
-    <section class="section shop-category" id="meches">
-      <div class="container">
-        <div class="section-heading">
-          <span class="section-kicker">Catégorie 02</span>
-          <h2>Mèches</h2>
-          <p>Des mèches pour tresses, coiffures protectrices et looks personnalisés.</p>
-        </div>
-        <div class="grid grid-3" id="grid-meches"></div>
+      <div class="grid grid-3" id="produits-container">
+        <!-- Les produits sont chargés dynamiquement depuis Firestore -->
       </div>
-    </section>
-
-    <section class="section light-band shop-category" id="perruques">
-      <div class="container">
-        <div class="section-heading">
-          <span class="section-kicker">Catégorie 03</span>
-          <h2>Perruques</h2>
-          <p>Des modèles pratiques, élégants et faciles à personnaliser.</p>
-        </div>
-        <div class="grid grid-3" id="grid-perruques"></div>
-      </div>
-    </section>
-
-    <section class="section shop-category" id="outils-esthetique">
-      <div class="container">
-        <div class="section-heading">
-          <span class="section-kicker">Catégorie 04</span>
-          <h2>Outils d'esthétique</h2>
-          <p>Outils utiles pour l'entretien et les petits gestes beauté.</p>
-        </div>
-        <div class="grid grid-3" id="grid-outils"></div>
-      </div>
-    </section>
+    </div></section>
     <section class="cta-section"><div class="container"><h2>Besoin d'un conseil produit ?</h2><a class="btn btn-dark" href="contact.html">Nous contacter</a></div></section>
   </main>
     <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
-        <div><h3 class="footer-title">SOCHOU HAIR BEAUTY SALON</h3><p>Salon de beauté moderne spécialisé dans la coiffure, les soins capillaires, les tresses, les perruques, la manucure, la pédicure et les produits esthétiques.</p>
+        <div><h3 class="footer-title info-value-nom">SOCHOU HAIR BEAUTY SALON</h3><p class="description-display">Salon de beauté moderne spécialisé dans la coiffure, les soins capillaires, les tresses, les perruques, la manucure, la pédicure et les produits esthétiques.</p>
           <div class="social-links">
             <a class="social-link" href="#" aria-label="Facebook">F</a>
             <a class="social-link" href="#" aria-label="Instagram">I</a>
@@ -158,8 +126,20 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="../js/firebase/config.js"></script>
+  <script src="../js/firebase/services.js"></script>
+  <script src="../js/firebase/galerie.js"></script>
+  <script src="../js/firebase/produits.js"></script>
+  <script src="../js/firebase/commandes.js"></script>
+  <script src="../js/firebase/rendezVous.js"></script>
+  <script src="../js/firebase/informations.js"></script>
   <script src="../js/site-data.js"></script>
   <script src="../js/menu.js"></script>
   <script src="../js/boutique.js"></script>
+  <script src="../js/site-public.js"></script>
+  <script src="../js/pwa.js"></script>
 </body>
 </html>

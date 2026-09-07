@@ -9,6 +9,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/pwa.css">
+  <meta name="theme-color" content="#1A1A1A">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../icons/icon-512x512.png">
+  <link rel="apple-touch-icon" href="../icons/icon-192x192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SOCHOU Salon">
 </head>
 <body>
   <header class="site-header">
@@ -33,6 +42,7 @@
           <li><a class="nav-link" href="boutique.html">Boutique</a></li>
           <li><a class="nav-link" href="galerie.html">Galerie</a></li>
           <li><a class="nav-link" href="contact.html">Contact</a></li>
+          <li><a class="nav-link" href="admin/login.html">Admin</a></li>
         </ul>
         <a class="btn btn-primary" href="contact.html" data-appointment>Prendre rendez-vous</a>
       </nav>
@@ -40,13 +50,13 @@
   </header>
   <main>
     <section class="page-hero"><div class="container"><span class="section-kicker">Notre histoire</span><h1>À propos de SOCHOU</h1><p>Un salon moderne où l'expertise, l'écoute et l'élégance se rencontrent pour révéler votre beauté naturelle.</p></div></section>
-    <section class="section light-band"><div class="container about-layout"><div class="image-frame"><img src="../images/hero/propos.jpeg" alt="Placeholder espace salon SOCHOU"></div><div class="about-text"><span class="section-kicker">Notre vision</span><h2 class="section-title">Faire de chaque visite un moment de confiance</h2><p>SOCHOU HAIR BEAUTY SALON accompagne les femmes dans leurs envies de beauté avec des prestations soignées, des produits choisis avec attention et un cadre propre.</p><p>Notre mission est d'offrir une expérience claire, agréable et professionnelle, que vous veniez pour une coiffure, un soin, une pose de perruque ou un achat en boutique.</p><div class="stats-row"><div class="stat-box"><strong>6</strong><p>Domaines beauté</p></div><div class="stat-box"><strong>100%</strong><p>Écoute cliente</p></div><div class="stat-box"><strong>1</strong><p>Adresse complète</p></div></div></div></div></section>
+    <section class="section light-band"><div class="container about-layout"><div class="image-frame"><img src="../images/hero/propos.jpeg" alt="Espace salon SOCHOU"></div><div class="about-text"><span class="section-kicker">Notre vision</span><h2 class="section-title">Faire de chaque visite un moment de confiance</h2><p class="description-display">Chargement...</p><p>Notre mission est d'offrir une expérience claire, agréable et professionnelle, que vous veniez pour une coiffure, un soin, une pose de perruque ou un achat en boutique.</p><div class="stats-row"><div class="stat-box"><strong>6</strong><p>Domaines beauté</p></div><div class="stat-box"><strong>100%</strong><p>Écoute cliente</p></div><div class="stat-box"><strong>1</strong><p>Adresse complète</p></div></div></div></div></section>
     <section class="cta-section"><div class="container"><h2>Prête à révéler votre beauté ?</h2><a class="btn btn-dark" href="contact.html" data-appointment>Prendre rendez-vous</a></div></section>
   </main>
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
-        <div><h3 class="footer-title">SOCHOU HAIR BEAUTY SALON</h3><p>Salon de beauté moderne spécialisé dans la coiffure, les soins capillaires, les tresses, les perruques, la manucure, la pédicure et les produits esthétiques.</p>
+        <div><h3 class="footer-title info-value-nom">SOCHOU HAIR BEAUTY SALON</h3><p class="description-display">Salon de beauté moderne spécialisé dans la coiffure, les soins capillaires, les tresses, les perruques, la manucure, la pédicure et les produits esthétiques.</p>
           <div class="social-links">
             <a class="social-link" href="#" aria-label="Facebook">F</a>
             <a class="social-link" href="#" aria-label="Instagram">I</a>
@@ -58,7 +68,18 @@
       <p class="footer-bottom">© 2026 SOCHOU HAIR BEAUTY SALON. Tous droits réservés.</p>
     </div>
   </footer>
-  <script src="../js/site-data.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="../js/firebase/config.js"></script>
+  <script src="../js/firebase/services.js"></script>
+  <script src="../js/firebase/galerie.js"></script>
+  <script src="../js/firebase/rendezVous.js"></script>
+  <script src="../js/firebase/informations.js"></script>
+    <script src="../js/firebase/produits.js"></script>
+<script src="../js/site-data.js"></script>
   <script src="../js/menu.js"></script>
+  <script src="../js/site-public.js"></script>
+  <script src="../js/pwa.js"></script>
 </body>
 </html>

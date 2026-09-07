@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SOCHOU HAIR BEAUTY SALON | Administration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/admin.css">
+  <link rel="stylesheet" href="../../css/pwa.css">
+  <meta name="theme-color" content="#1A1A1A">
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../../icons/icon-512x512.png">
+  <link rel="apple-touch-icon" href="../../icons/icon-192x192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SOCHOU Salon">
+</head>
+<body class="admin-body">
+  <header class="admin-header">
+    <div class="container admin-header-inner">
+      <a class="admin-brand" href="dashboard.html">
+        <img src="../../images/logo/logo.png" alt="SOCHOU" class="admin-brand-logo">
+        <span>Administration</span>
+      </a>
+      <nav class="admin-nav" id="admin-nav">
+        <button class="admin-nav-link active" data-nav="dashboard">Tableau de bord</button>
+        <button class="admin-nav-link" data-nav="services">Services</button>
+        <button class="admin-nav-link" data-nav="galerie">Galerie</button>
+        <button class="admin-nav-link" data-nav="boutique">Boutique</button>
+        <button class="admin-nav-link" data-nav="commandes">Commandes</button>
+        <button class="admin-nav-link" data-nav="rendez-vous">Rendez-vous</button>
+        <button class="admin-nav-link" data-nav="informations">Informations</button>
+      </nav>
+      <div class="admin-header-actions">
+        <a href="../../index.html" class="btn btn-outline btn-sm" target="_blank">Voir le site</a>
+        <button type="button" class="btn btn-dark btn-sm" id="logout-btn">Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-section" id="section-dashboard">
+      <div class="container">
+        <h1 class="admin-page-title">Tableau de bord</h1>
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card"><span class="admin-stat-label">Services actifs</span><strong class="admin-stat-value" id="stat-services-actifs">-</strong></div>
+          <div class="admin-stat-card"><span class="admin-stat-label">Photos dans la galerie</span><strong class="admin-stat-value" id="stat-galerie">-</strong></div>
+          <div class="admin-stat-card"><span class="admin-stat-label">Rendez-vous en attente</span><strong class="admin-stat-value" id="stat-rdv-attente">-</strong></div>
+          <div class="admin-stat-card"><span class="admin-stat-label">Rendez-vous confirmés</span><strong class="admin-stat-value" id="stat-rdv-confirmes">-</strong></div>
+          <div class="admin-stat-card"><span class="admin-stat-label">Produits en boutique</span><strong class="admin-stat-value" id="stat-produits">-</strong></div>
+          <div class="admin-stat-card"><span class="admin-stat-label">Commandes</span><strong class="admin-stat-value" id="stat-commandes">-</strong></div>
+        </div>
+        <p class="admin-loading" id="dashboard-loading">Chargement des statistiques...</p>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="section-services">
+      <div class="container">
+        <div class="admin-section-header">
+          <h2 class="admin-page-title">Services</h2>
+          <button type="button" class="btn btn-primary" id="btn-add-service">+ Ajouter un service</button>
+        </div>
+        <div id="services-list" class="admin-items-grid"></div>
+        <p class="admin-loading" id="services-loading">Chargement...</p>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="section-galerie">
+      <div class="container">
+        <div class="admin-section-header">
+          <h2 class="admin-page-title">Galerie</h2>
+          <button type="button" class="btn btn-primary" id="btn-add-galerie">+ Ajouter une réalisation</button>
+        </div>
+        <div id="galerie-list" class="admin-items-grid"></div>
+        <p class="admin-loading" id="galerie-loading">Chargement...</p>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="section-boutique">
+      <div class="container">
+        <div class="admin-section-header">
+          <h2 class="admin-page-title">Boutique</h2>
+          <button type="button" class="btn btn-primary" id="btn-add-produit">+ Ajouter un produit</button>
+        </div>
+        <div id="produits-list" class="admin-items-grid"></div>
+        <p class="admin-loading" id="produits-loading">Chargement...</p>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="section-commandes">
+      <div class="container">
+        <div class="admin-section-header">
+          <h2 class="admin-page-title">Commandes</h2>
+          <div class="admin-filter">
+            <label for="commande-filter">Filtrer :</label>
+            <select id="commande-filter">
+              <option value="">Toutes</option>
+              <option value="en_attente">En attente</option>
+              <option value="confirme">Confirmée</option>
+              <option value="livree">Livrée</option>
+              <option value="annule">Annulée</option>
+            </select>
+          </div>
+        </div>
+        <div id="commandes-list" class="admin-rdv-list"></div>
+        <p class="admin-loading" id="commandes-loading">Chargement...</p>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="section-rendez-vous">
+      <div class="container">
+        <div class="admin-section-header">
+          <h2 class="admin-page-title">Rendez-vous</h2>
+          <div class="admin-filter">
+            <label for="rdv-filter">Filtrer :</label>
+            <select id="rdv-filter">
+              <option value="">Tous</option>
+              <option value="en_attente">En attente</option>
+              <option value="confirme">Confirmé</option>
+              <option value="annule">Annulé</option>
+              <option value="termine">Terminé</option>
+            </select>
+          </div>
+        </div>
+        <div id="rendez-vous-list" class="admin-rdv-list"></div>
+        <p class="admin-loading" id="rendez-vous-loading">Chargement...</p>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="section-informations">
+      <div class="container">
+        <h2 class="admin-page-title">Informations du salon</h2>
+        <div id="informations-container"></div>
+        <p class="admin-loading" id="informations-loading">Chargement...</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="admin-modal hidden" id="modal-service" role="dialog" aria-modal="true">
+    <div class="admin-modal-overlay" data-close-modal></div>
+    <div class="admin-modal-dialog">
+      <button class="admin-modal-close" type="button" data-close-modal>&times;</button>
+      <h3 id="modal-service-title">Ajouter un service</h3>
+      <form id="form-service" class="admin-form">
+        <input type="hidden" name="id" value="">
+        <div class="form-grid">
+          <div class="form-field"><label for="service-nom">Nom</label><input id="service-nom" name="nom" type="text" required maxlength="100"></div>
+          <div class="form-field"><label for="service-prix">Prix (FCFA)</label><input id="service-prix" name="prix" type="number" min="0" required></div>
+          <div class="form-field"><label for="service-duree">Durée</label><input id="service-duree" name="duree" type="text" maxlength="20"></div>
+          <div class="form-field"><label for="service-ordre">Ordre</label><input id="service-ordre" name="ordre" type="number" min="0" value="0"></div>
+          <div class="form-field full"><label for="service-description">Description</label><textarea id="service-description" name="description" rows="3" maxlength="500"></textarea></div>
+          <div class="form-field full"><div id="service-image-selector"></div></div>
+          <div class="form-field"><label class="checkbox-label"><input type="checkbox" name="actif" value="1" checked><span>Service actif</span></label></div>
+          <div class="form-field full form-actions">
+            <button type="button" class="btn btn-outline" data-close-modal>Annuler</button>
+            <button type="submit" class="btn btn-dark">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-modal hidden" id="modal-galerie" role="dialog" aria-modal="true">
+    <div class="admin-modal-overlay" data-close-modal></div>
+    <div class="admin-modal-dialog">
+      <button class="admin-modal-close" type="button" data-close-modal>&times;</button>
+      <h3 id="modal-galerie-title">Ajouter une réalisation</h3>
+      <form id="form-galerie" class="admin-form">
+        <input type="hidden" name="id" value="">
+        <div class="form-grid">
+          <div class="form-field"><label for="galerie-titre">Titre</label><input id="galerie-titre" name="titre" type="text" required maxlength="100"></div>
+          <div class="form-field"><label for="galerie-categorie">Catégorie</label><input id="galerie-categorie" name="categorie" type="text" maxlength="50"></div>
+          <div class="form-field"><label for="galerie-ordre">Ordre</label><input id="galerie-ordre" name="ordre" type="number" min="0" value="0"></div>
+          <div class="form-field full"><label for="galerie-description">Description</label><textarea id="galerie-description" name="description" rows="3" maxlength="500"></textarea></div>
+          <div class="form-field full"><div id="galerie-image-selector"></div></div>
+          <div class="form-field"><label class="checkbox-label"><input type="checkbox" name="actif" value="1" checked><span>Visible</span></label></div>
+          <div class="form-field full form-actions">
+            <button type="button" class="btn btn-outline" data-close-modal>Annuler</button>
+            <button type="submit" class="btn btn-dark">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-modal hidden" id="modal-produit" role="dialog" aria-modal="true">
+    <div class="admin-modal-overlay" data-close-modal></div>
+    <div class="admin-modal-dialog">
+      <button class="admin-modal-close" type="button" data-close-modal>&times;</button>
+      <h3 id="modal-produit-title">Ajouter un produit</h3>
+      <form id="form-produit" class="admin-form">
+        <input type="hidden" name="id" value="">
+        <div class="form-grid">
+          <div class="form-field"><label for="produit-nom">Nom</label><input id="produit-nom" name="nom" type="text" required maxlength="100"></div>
+          <div class="form-field"><label for="produit-prix">Prix (FCFA)</label><input id="produit-prix" name="prix" type="number" min="0" required></div>
+          <div class="form-field"><label for="produit-categorie">Catégorie</label><input id="produit-categorie" name="categorie" type="text" placeholder="ex: Mèches" maxlength="50"></div>
+          <div class="form-field"><label for="produit-ordre">Ordre</label><input id="produit-ordre" name="ordre" type="number" min="0" value="0"></div>
+          <div class="form-field full"><label for="produit-description">Description</label><textarea id="produit-description" name="description" rows="3" maxlength="500"></textarea></div>
+          <div class="form-field full"><label for="produit-caracteristiques">Caractéristiques (séparées par |)</label><input id="produit-caracteristiques" name="caracteristiques" type="text" placeholder="ex: 100% naturel|Hydrate en profondeur"></div>
+          <div class="form-field full"><div id="produit-image-selector"></div></div>
+          <div class="form-field"><label class="checkbox-label"><input type="checkbox" name="actif" value="1" checked><span>Produit visible</span></label></div>
+          <div class="form-field full form-actions">
+            <button type="button" class="btn btn-outline" data-close-modal>Annuler</button>
+            <button type="submit" class="btn btn-dark">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-modal hidden" id="modal-informations" role="dialog" aria-modal="true">
+    <div class="admin-modal-overlay" data-close-modal></div>
+    <div class="admin-modal-dialog admin-modal-large">
+      <button class="admin-modal-close" type="button" data-close-modal>&times;</button>
+      <h3>Modifier les informations du salon</h3>
+      <form id="form-informations" class="admin-form">
+        <div class="form-grid">
+          <div class="form-field"><label for="info-nom">Nom</label><input id="info-nom" name="nom" type="text" required maxlength="100"></div>
+          <div class="form-field"><label for="info-slogan">Slogan</label><input id="info-slogan" name="slogan" type="text" maxlength="200"></div>
+          <div class="form-field full"><label for="info-description">Description</label><textarea id="info-description" name="description" rows="3"></textarea></div>
+          <div class="form-field full"><div id="info-logo-selector"></div></div>
+          <div class="form-field"><label for="info-telephone">Téléphone</label><input id="info-telephone" name="telephone" type="tel" maxlength="20"></div>
+          <div class="form-field"><label for="info-whatsapp">WhatsApp</label><input id="info-whatsapp" name="whatsapp" type="tel" maxlength="20"></div>
+          <div class="form-field"><label for="info-email">Email</label><input id="info-email" name="email" type="email" maxlength="100"></div>
+          <div class="form-field"><label for="info-adresse">Adresse</label><input id="info-adresse" name="adresse" type="text" maxlength="200"></div>
+          <div class="form-field"><label for="info-facebook">Facebook</label><input id="info-facebook" name="facebook" type="text" maxlength="200"></div>
+          <div class="form-field"><label for="info-instagram">Instagram</label><input id="info-instagram" name="instagram" type="text" maxlength="200"></div>
+          <div class="form-field"><label for="info-localisation">Localisation</label><input id="info-localisation" name="localisation" type="text" maxlength="500"></div>
+          <div class="form-field full"><label>Horaires</label><div id="info-horaires-container"></div></div>
+          <div class="form-field full form-actions">
+            <button type="button" class="btn btn-outline" data-close-modal>Annuler</button>
+            <button type="submit" class="btn btn-dark">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-modal hidden" id="modal-confirm" role="dialog" aria-modal="true">
+    <div class="admin-modal-overlay" data-close-modal></div>
+    <div class="admin-modal-dialog admin-modal-small">
+      <button class="admin-modal-close" type="button" data-close-modal>&times;</button>
+      <h3>Confirmer la suppression</h3>
+      <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" data-close-modal>Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirm-delete-btn">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="../../js/firebase/config.js"></script>
+  <script src="../../js/firebase/auth.js"></script>
+  <script src="../../js/firebase/services.js"></script>
+  <script src="../../js/firebase/galerie.js"></script>
+  <script src="../../js/firebase/produits.js"></script>
+  <script src="../../js/firebase/commandes.js"></script>
+  <script src="../../js/firebase/rendezVous.js"></script>
+  <script src="../../js/firebase/informations.js"></script>
+  <script src="../../js/firebase/images.js"></script>
+  <script src="../../js/image-selector.js"></script>
+  <script src="../../js/admin.js"></script>
+  <script src="../../js/pwa.js"></script>
+</body>
+</html>

@@ -66,6 +66,22 @@ if (appointmentTriggers.length) {
   `;
   document.body.appendChild(modal);
 
+  // Charger dynamiquement les services dans le select
+  const serviceSelect = document.getElementById("appointment-service");
+  if (serviceSelect && window.SochouServices) {
+    window.SochouServices.getServices(true).then((services) => {
+      if (services.length) {
+        serviceSelect.innerHTML = "";
+        services.forEach((service) => {
+          const option = document.createElement("option");
+          option.value = service.nom;
+          option.textContent = service.nom;
+          serviceSelect.appendChild(option);
+        });
+      }
+    }).catch(() => {});
+  }
+
   const closeButtons = modal.querySelectorAll("[data-modal-close]");
   const form = modal.querySelector(".appointment-form");
   const firstInput = modal.querySelector("input");
@@ -97,33 +113,54 @@ if (appointmentTriggers.length) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    if (window.SochouData) {
-      const nameField = modal.querySelector("#appointment-name");
-      const phoneField = modal.querySelector("#appointment-phone");
-      const serviceField = modal.querySelector("#appointment-service");
-      const dateField = modal.querySelector("#appointment-date");
-      const messageField = modal.querySelector("#appointment-message");
+    const submitBtn = form.querySelector("button[type='submit']");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Envoi en cours...";
 
-      window.SochouData.addAppointment({
-        id: window.SochouData.uid(),
-        name: nameField ? nameField.value.trim() : "",
-        phone: phoneField ? phoneField.value.trim() : "",
-        service: serviceField ? serviceField.value.trim() : "",
-        date: dateField ? dateField.value : "",
-        message: messageField ? messageField.value.trim() : "",
-        statut: "Nouveau",
-        created: new Date().toISOString()
+    const data = {
+      nomClient: document.getElementById("appointment-name").value.trim(),
+      telephone: document.getElementById("appointment-phone").value.trim(),
+      service: document.getElementById("appointment-service").value,
+      date: document.getElementById("appointment-date").value,
+      message: document.getElementById("appointment-message").value.trim(),
+      heure: ""
+    };
+
+    // Si Firebase est disponible, enregistrer le rendez-vous
+    if (window.SochouRendezVous) {
+      window.SochouRendezVous.createRendezVous(data).then(() => {
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Envoyer la demande";
+        closeAppointmentModal();
+        if (window.SochouData && window.SochouData.showThankYou) {
+          window.SochouData.showThankYou(
+            "Demande de rendez-vous envoyée !",
+            "Merci pour votre confiance. Notre équipe vous recontactera très rapidement pour confirmer votre passage au salon."
+          );
+        }
+      }).catch((err) => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Envoyer la demande";
+        closeAppointmentModal();
+        if (window.SochouData && window.SochouData.showToast) {
+          window.SochouData.showToast("Erreur lors de l'envoi : " + err.message, "error");
+        } else {
+          alert("Erreur lors de l'envoi : " + err.message);
+        }
       });
-    }
-
-    form.reset();
-    closeAppointmentModal();
-
-    if (window.SochouData && window.SochouData.showThankYou) {
-      window.SochouData.showThankYou(
-        "Demande de rendez-vous envoyée !",
-        "Merci pour votre confiance. Notre équipe vous recontactera très rapidement pour confirmer votre passage au salon, et nous espérons que la qualité de nos services saura répondre à vos attentes."
-      );
+    } else {
+      // Mode dégradé sans Firebase
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Envoyer la demande";
+      closeAppointmentModal();
+      if (window.SochouData && window.SochouData.showThankYou) {
+        window.SochouData.showThankYou(
+          "Demande de rendez-vous envoyée !",
+          "Merci pour votre confiance. Notre équipe vous recontactera très rapidement pour confirmer votre passage au salon."
+        );
+      }
     }
   });
 

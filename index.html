@@ -9,6 +9,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pwa.css">
+  <meta name="theme-color" content="#1A1A1A">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SOCHOU Salon">
 </head>
 <body>
   <header class="site-header">
@@ -33,6 +42,7 @@
           <li><a class="nav-link" href="pages/boutique.html">Boutique</a></li>
           <li><a class="nav-link" href="pages/galerie.html">Galerie</a></li>
           <li><a class="nav-link" href="pages/contact.html">Contact</a></li>
+          <li><a class="nav-link" href="pages/admin/login.html">Admin</a></li>
         </ul>
         <a class="btn btn-primary" href="pages/contact.html" data-appointment>Prendre rendez-vous</a>
       </nav>
@@ -75,7 +85,9 @@
           <h2>Des prestations complètes et soignées</h2>
           <p class="section-lead">Coiffure, esthétique et soins capillaires dans une approche élégante, professionnelle et adaptée à votre style.</p>
         </div>
-        <div class="grid grid-3" id="services-grid"></div>
+        <div class="grid grid-3" id="services-container">
+          <!-- Les services sont chargés dynamiquement depuis Firestore -->
+        </div>
       </div>
     </section>
 
@@ -103,7 +115,9 @@
           <span class="section-kicker">Nos produits</span>
           <h2>Beauté, entretien et finition au même endroit</h2>
         </div>
-        <div class="grid grid-3" id="accueil-products-grid"></div>
+        <div class="grid grid-3" id="produits-container">
+          <!-- Les produits sont chargés dynamiquement depuis Firestore -->
+        </div>
       </div>
     </section>
 
@@ -113,16 +127,9 @@
           <span class="section-kicker">Galerie</span>
           <h2>Inspiration beauté</h2>
         </div>
-        <div class="gallery-grid">
-          <a class="gallery-item" href="pages/galerie.html"><img src="images/galerie/coiffure 1.jpeg" alt="Placeholder galerie coiffure 1"></a>
-          <a class="gallery-item" href="pages/galerie.html"><img src="images/galerie/coiffure 2.jpeg" alt="Placeholder galerie coiffure 2"></a>
-          <a class="gallery-item" href="pages/galerie.html"><img src="images/galerie/coifure 3.jpeg" alt="Placeholder galerie coiffure 3"></a>
-          <a class="gallery-item" href="pages/galerie.html"><img src="images/galerie/dread 1.jpeg" alt="Placeholder galerie coiffure 4"></a>
-          <a class="gallery-item" href="pages/galerie.html"><img src="images/galerie/tresse 1.jpeg" alt="Placeholder galerie coiffure 5"></a>
-          <a class="gallery-item" href="pages/galerie.html"><img src="images/galerie/tresse 2.jpeg" alt="Placeholder galerie coiffure 6"></a>
-          <a class="gallery-item" href="pages/galerie.html"><img src="images/galerie/perruque 2.jpeg" alt="Placeholder galerie beauté 7"></a>
-          <a class="gallery-item" href="pages/galerie.html"><img src="images/galerie/perruque 3.jpeg" alt="Placeholder galerie beauté 8"></a>
-        </div>
+        <div class="gallery-grid" id="galerie-container">
+           <!-- Les images de la galerie sont chargées dynamiquement depuis Firestore -->
+         </div>
       </div>
     </section>
 
@@ -133,9 +140,9 @@
           <h2>La confiance de nos clientes</h2>
         </div>
         <div class="grid grid-3">
-          <article class="card testimonial-card"><div class="client-row"><img src="images/galerie/cliente-01.jpeg" alt="Photo placeholder cliente Amina"><div><h3>Amina K.</h3><p>Cliente fidèle</p></div></div><p>Un accueil très professionnel, des conseils clairs et une coiffure qui tient parfaitement.</p><div class="stars" aria-label="5 étoiles">★★★★★</div></article>
-          <article class="card testimonial-card"><div class="client-row"><img src="images/galerie/cliente-02.jpeg" alt="Photo placeholder cliente Sara"><div><h3>Sara M.</h3><p>Cliente manucure</p></div></div><p>Le salon est propre, calme et élégant. Je repars toujours satisfaite du résultat.</p><div class="stars" aria-label="5 étoiles">★★★★★</div></article>
-          <article class="card testimonial-card"><div class="client-row"><img src="images/galerie/cliente-03.jpeg" alt="Photo placeholder cliente Nadia"><div><h3>Nadia A.</h3><p>Cliente soins</p></div></div><p>Les soins capillaires sont excellents et l'équipe prend vraiment le temps d'écouter.</p><div class="stars" aria-label="5 étoiles">★★★★★</div></article>
+          <article class="card testimonial-card"><div class="client-row"><img src="images/galerie/cliente-01.jpeg" alt="Photo placeholder cliente Amina"><div><h3>Amina K.</h3><p>Cliente coiffure</p></div></div><p>Un accueil très professionnel, des conseils clairs et une coiffure qui tient parfaitement.</p><div class="stars" aria-label="5 étoiles">★★★★★</div></article>
+          <article class="card testimonial-card"><div class="client-row"><img src="images/galerie/cliente-03.jpeg" alt="Photo placeholder cliente Sara"><div><h3>Sara M.</h3><p>Cliente manucure</p></div></div><p>Le salon est propre, calme et élégant. Je repars toujours satisfaite du résultat.</p><div class="stars" aria-label="5 étoiles">★★★★★</div></article>
+          <article class="card testimonial-card"><div class="client-row"><img src="images/galerie/cliente-04.jpeg" alt="Photo placeholder cliente Nadia"><div><h3>Nadia A.</h3><p>Cliente soins</p></div></div><p>Les soins capillaires sont excellents et l'équipe prend vraiment le temps d'écouter.</p><div class="stars" aria-label="5 étoiles">★★★★★</div></article>
         </div>
       </div>
     </section>
@@ -151,7 +158,7 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
-        <div><h3 class="footer-title">SOCHOU HAIR BEAUTY SALON</h3><p>Salon de beauté moderne spécialisé dans la coiffure, les soins capillaires, les tresses, les perruques, la manucure, la pédicure et les produits esthétiques.</p>
+        <div><h3 class="footer-title info-value-nom">SOCHOU HAIR BEAUTY SALON</h3><p class="description-display">Salon de beauté moderne spécialisé dans la coiffure, les soins capillaires, les tresses, les perruques, la manucure, la pédicure et les produits esthétiques.</p>
           <div class="social-links">
             <a class="social-link" href="#" aria-label="Facebook">F</a>
             <a class="social-link" href="#" aria-label="Instagram">I</a>
@@ -163,9 +170,18 @@
       <p class="footer-bottom">© 2026 SOCHOU HAIR BEAUTY SALON. Tous droits réservés.</p>
     </div>
   </footer>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase/config.js"></script>
+  <script src="js/firebase/services.js"></script>
+  <script src="js/firebase/galerie.js"></script>
+  <script src="js/firebase/produits.js"></script>
+  <script src="js/firebase/rendezVous.js"></script>
+  <script src="js/firebase/informations.js"></script>
   <script src="js/site-data.js"></script>
   <script src="js/menu.js"></script>
-  <script src="js/services.js"></script>
-  <script src="js/accueil.js"></script>
+  <script src="js/site-public.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

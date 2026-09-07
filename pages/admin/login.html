@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SOCHOU HAIR BEAUTY SALON | Administration - Connexion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/admin.css">
+  <link rel="stylesheet" href="../../css/pwa.css">
+  <meta name="theme-color" content="#1A1A1A">
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../../icons/icon-512x512.png">
+  <link rel="apple-touch-icon" href="../../icons/icon-192x192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SOCHOU Salon">
+</head>
+<body class="admin-body">
+  <main class="admin-login-main">
+    <div class="admin-login-card">
+      <div class="admin-login-brand">
+        <img src="../../images/logo/logo.png" alt="SOCHOU HAIR BEAUTY SALON" class="admin-login-logo">
+        <h1>Administration</h1>
+        <p>Connectez-vous pour gérer votre salon</p>
+      </div>
+
+      <form id="login-form" class="admin-login-form">
+        <div class="form-field">
+          <label for="login-email">Adresse email</label>
+          <input id="login-email" name="email" type="email" placeholder="admin@sochoubeauty.com" required autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label for="login-password">Mot de passe</label>
+          <input id="login-password" name="password" type="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-dark btn-full" id="login-btn">Se connecter</button>
+        <p id="login-error" class="admin-login-error" role="alert"></p>
+      </form>
+
+      <p class="admin-login-footer">
+        <a href="../../index.html">&larr; Retour au site</a>
+      </p>
+    </div>
+  </main>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Scripts Sochou -->
+  <script src="../../js/firebase/config.js"></script>
+  <script src="../../js/firebase/auth.js"></script>
+  <script src="../../js/admin-login.js"></script>
+  <script src="../../js/pwa.js"></script>
+</body>
+</html>
