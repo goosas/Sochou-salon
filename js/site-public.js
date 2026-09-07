@@ -8,6 +8,7 @@
   "use strict";
 
   const { initFirebase } = window.SochouFirebase;
+  const Images = window.SochouImages || { resolveImagePath: function (p) { return p; } };
 
   // Stockage global pour le filtrage
   var allServices = [];
@@ -34,7 +35,7 @@
       // Logo
       if (data.logo) {
         document.querySelectorAll(".brand-mark img, .admin-brand-logo, .admin-login-logo").forEach(function (img) {
-          if (img) img.src = data.logo;
+          if (img) img.src = Images.resolveImagePath(data.logo);
         });
       }
 
@@ -140,7 +141,7 @@
       var card = document.createElement("article");
       card.className = "card";
       var imgHtml = service.image
-        ? '<img src="' + escapeHtml(service.image) + '" alt="' + escapeHtml(service.nom) + '" loading="lazy">'
+        ? '<img src="' + escapeHtml(Images.resolveImagePath(service.image)) + '" alt="' + escapeHtml(service.nom) + '" loading="lazy">'
         : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">Pas d\'image</div>';
       card.innerHTML =
         '<div class="card-media">' + imgHtml + '</div>' +
@@ -185,7 +186,7 @@
       link.className = "gallery-item";
       link.href = item.image || "#";
       var imgHtml = item.image
-        ? '<img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.titre) + '" loading="lazy">'
+        ? '<img src="' + escapeHtml(Images.resolveImagePath(item.image)) + '" alt="' + escapeHtml(item.titre) + '" loading="lazy">'
         : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">Pas d\'image</div>';
       link.innerHTML = imgHtml;
       container.appendChild(link);
@@ -276,7 +277,7 @@
       card.dataset.prix = prod.prix;
       card.dataset.caracteristiques = prod.caracteristiques || "";
       var imgHtml = prod.image
-        ? '<img src="' + escapeHtml(prod.image) + '" alt="' + escapeHtml(prod.nom) + '" loading="lazy">'
+        ? '<img src="' + escapeHtml(Images.resolveImagePath(prod.image)) + '" alt="' + escapeHtml(prod.nom) + '" loading="lazy">'
         : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">Pas d\'image</div>';
       card.innerHTML =
         '<div class="card-media">' + imgHtml + '</div>' +

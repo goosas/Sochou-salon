@@ -8,7 +8,7 @@
 (function (window) {
   "use strict";
 
-  const { getImagesByDossier, getAllImages } = window.SochouImages;
+  const { getImagesByDossier, getAllImages, resolveImagePath } = window.SochouImages;
 
   /**
    * Crée et retourne un élément de sélecteur d'images.
@@ -99,7 +99,7 @@
         }
 
         const imageEl = document.createElement("img");
-        imageEl.src = "../../" + img.chemin;
+        imageEl.src = resolveImagePath(img.chemin);
         imageEl.alt = img.nom;
         imageEl.loading = "lazy";
 
@@ -156,8 +156,8 @@
     }
     const parts = chemin.split("/");
     const fileName = parts[parts.length - 1];
-    // Préfixe ../../ pour remonter depuis /pages/admin/ vers la racine
-    const imagePath = "../../" + chemin;
+    // Résout le chemin selon la profondeur de la page courante
+    const imagePath = window.SochouImages.resolveImagePath(chemin);
     return (
       '<div class="image-selector-has-image">' +
       '<img src="' + imagePath + '" alt="' + fileName + '" loading="lazy">' +

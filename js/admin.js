@@ -230,7 +230,7 @@
   function renderServiceCard(svc) {
     var card = document.createElement("div");
     card.className = "admin-item-card";
-    var imagePath = svc.image ? "../../" + svc.image : "";
+    var imagePath = svc.image ? window.SochouImages.resolveImagePath(svc.image) : "";
     var imgHtml = imagePath
       ? '<img src="' + imagePath + '" alt="' + svc.nom + '" loading="lazy">'
       : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">Pas d\'image</div>';
@@ -361,7 +361,7 @@
   function renderGalerieCard(item) {
     var card = document.createElement("div");
     card.className = "admin-item-card";
-    var imagePath = item.image ? "../../" + item.image : "";
+    var imagePath = item.image ? window.SochouImages.resolveImagePath(item.image) : "";
     var imgHtml = imagePath
       ? '<img src="' + imagePath + '" alt="' + item.titre + '" loading="lazy">'
       : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">Pas d\'image</div>';
@@ -972,7 +972,7 @@
   function renderProduitCard(prod) {
     var card = document.createElement("div");
     card.className = "admin-item-card";
-    var imagePath = prod.image ? "../../" + prod.image : "";
+    var imagePath = prod.image ? window.SochouImages.resolveImagePath(prod.image) : "";
     var imgHtml = imagePath
       ? '<img src="' + imagePath + '" alt="' + prod.nom + '" loading="lazy">'
       : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">Pas d\'image</div>';

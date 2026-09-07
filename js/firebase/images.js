@@ -60,12 +60,61 @@
     if (!chemin) return "";
     let path = String(chemin).trim();
     // Rejeter les chemins absolus Windows ou Unix
-    if (path.indexOf(":") !== -1 || path.indexOf("..") !== -1) return "";
+    if (path.indexOf(":") !== -1) return "";
     // Normaliser les barres obliques
     path = path.replace(/\\/g, "/");
+    // Rejeter les tentatives de traversée
+    if (path.indexOf("..") !== -1) return "";
     // S'assurer que le chemin commence par "images/"
-    if (path.indexOf("../images/") !== 0) return "";
+    if (path.indexOf("images/") !== 0) return "";
     return path;
+  }
+
+  /**
+   * Calcule le préfixe à appliquer aux chemins relatifs
+   * selon la profondeur de la page courante.
+   * Exemples :
+   *   /index.html            -> ""
+   *   /pages/services.html   -> "../"
+   *   /pages/admin/xxx.html  -> "../../"
+   * @returns {string}
+   */
+  function getPageDepthPrefix() {
+    const pathname = window.location ? window.location.pathname : "/";
+    const lastSlash = pathname.lastIndexOf("/");
+    let dir = lastSlash > 0 ? pathname.substring(1, lastSlash) : "";
+    dir = dir.split("/")[0] === "" ? "" : dir;
+    if (!dir) return "";
+    const depth = dir.split("/").filter(function (s) { return s.length > 0; }).length;
+    let prefix = "";
+    for (let i = 0; i < depth; i++) prefix += "../";
+    return prefix;
+  }
+
+  /**
+   * Transforme un chemin d'image stocké en Firestore (relatif à la racine,
+   * ex: "images/services/tresse.png") en chemin exploitable dans le src d'une
+   * balise <img>, quel que soit le niveau de profondeur de la page courante.
+   * @param {string} chemin - chemin relatif racine, déjà préfixé, ou URL absolue
+   * @returns {string}
+   */
+  function resolveImagePath(chemin) {
+    if (!chemin) return "";
+    let p = String(chemin).trim();
+    // URLs absolues / protocol-relative / data: => inchangées
+    if (p.indexOf("http://") === 0 || p.indexOf("https://") === 0 ||
+        p.indexOf("//") === 0 || p.indexOf("data:") === 0) {
+      return p;
+    }
+    // Chemin déjà racine-absolu => inchangé
+    if (p.indexOf("/") === 0) return p;
+    // Retirer les préfixes ../ éventuels pour repartir sur un chemin relatif racine
+    while (p.indexOf("../") === 0) p = p.substring(3);
+    p = p.replace(/^\/+/, "");
+    // Chemin simple (nom de fichier seul) => relatif à la page courante
+    if (p.indexOf("/") === -1) return p;
+    // Chemin relatif racine => préfixer selon la profondeur de la page
+    return getPageDepthPrefix() + p;
   }
 
   /**
@@ -97,6 +146,8 @@
     getAllImages,
     sanitizePath,
     getFileName,
-    buildPath
+    buildPath,
+    getPageDepthPrefix,
+    resolveImagePath
   };
 })(window);
