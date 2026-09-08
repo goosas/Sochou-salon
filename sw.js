@@ -4,8 +4,8 @@
    Gestion du cache :
    - Installation : pre-cache des ressources statiques essentielles.
    - Activation : suppression des anciens caches (mise a jour).
-   - Navigation (pages HTML) : reseau d'abord, puis cache,
-     puis page hors-ligne (offline.html).
+   - Navigation (pages HTML) : la page est laissee au navigateur
+     pour eviter de servir un HTML obsoleta pendant une mise a jour.
    - Autres ressources statiques (CSS, JS, images, icones,
      polices, SDK Firebase CDN) : stale-while-revalidate
      (cache si disponible, sinon reseau mis en cache en arriere-plan).
@@ -13,9 +13,10 @@
      Storage) ne sont JAMAIS interceptees ni mises en cache :
      elles passent toujours par le reseau. Les donnees dynamiques
      continuent donc de venir de Firestore normalement.
+*/
 
 
-const CACHE_VERSION = "sochou-cache-v1.0.0";
+const CACHE_VERSION = "sochou-cache-v1.0.5";
 const PRECACHE_NAME = CACHE_VERSION + "-static";
 const RUNTIME_CACHE_NAME = CACHE_VERSION + "-runtime";
 
@@ -64,8 +65,8 @@ const PRECACHE_URLS = [
   "./js/firebase/services.js",
   "./js/firebase/galerie.js",
   "./js/firebase/produits.js",
-  "./js/firebase/rendezVous.js",
   "./js/firebase/commandes.js",
+  "./js/firebase/rendezVous.js",
   "./js/firebase/informations.js",
   "./js/firebase/images.js"
 ];
@@ -81,6 +82,17 @@ function isFirebaseApi(url) {
     hostname === "firebasestorage.googleapis.com" ||
     hostname.endsWith(".firebaseapp.com") ||
     hostname.endsWith(".firebaseio.com")
+  );
+}
+
+function isExternalCdn(url) {
+  const hostname = url.hostname;
+  // Ne pas intercepter les requêtes vers les CDN externes (SDK Firebase, polices Google, etc.)
+  return (
+    hostname === "www.gstatic.com" ||
+    hostname === "fonts.googleapis.com" ||
+    hostname === "fonts.gstatic.com" ||
+    hostname !== self.location.hostname
   );
 }
 
@@ -142,35 +154,22 @@ self.addEventListener("fetch", function (event) {
 
   const url = new URL(request.url);
 
-  // Les API Firebase doivent TOUJOURS passer par le reseau.
+  // Ne pas intercepter les requetes vers les CDN externes (SDK Firebase, polices Google, etc.)
+  if (isExternalCdn(url)) return;
 
+  // Les API Firebase doivent TOUJOURS passer par le reseau.
   if (url.protocol !== "http:" && url.protocol !== "https:") return;
   if (isFirebaseApi(url)) return;
 
-  // Navigation vers les pages HTML : reseau d'abord, cache ensuite
+  // Navigation vers les pages HTML : ne pas intercepter
+  // Laissez le navigateur gerer les requetes de navigation naturellement
+  // Cela evite de bloquer l'accès aux pages en cas d'erreur reseau
   if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then(function (response) {
-          if (isCacheableResponse(response)) {
-            const copy = response.clone();
-            caches.open(RUNTIME_CACHE_NAME).then(function (cache) {
-              cache.put(request, copy);
-            });
-          }
-          return response;
-        })
-        .catch(function () {
-          return caches.match(request).then(function (cached) {
-            if (cached) return cached;
-            return caches.match("./offline.html");
-          });
-        })
-    );
+    // Ne pas appeler event.respondWith() pour laisser le navigateur gerer la requete
     return;
   }
 
-  // Autres ressources statiques : stale-while-revalidate
+  // Autres ressources statiques locales : stale-while-revalidate
   event.respondWith(
     caches.match(request).then(function (cached) {
       const fetchPromise = fetch(request)

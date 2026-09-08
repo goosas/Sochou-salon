@@ -21,7 +21,9 @@
     if (manifestCache) {
       return Promise.resolve(manifestCache);
     }
-    return fetch("/images-manifest.json")
+    // Le manifest est a la racine du site, y compris quand la page est dans /pages/.
+    const manifestUrl = new URL("images-manifest.json", document.baseURI).href;
+    return fetch(manifestUrl)
       .then(function (response) {
         if (!response.ok) throw new Error("Impossible de charger images-manifest.json");
         return response.json();

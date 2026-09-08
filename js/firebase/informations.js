@@ -11,17 +11,26 @@
 
   const COLLECTION = "informations_generales";
   const DOC_ID = "salon";
+  let pendingRead = null;
 
   /**
    * Récupère les informations générales du salon.
    * @returns {Promise<Object|null>}
    */
   function getInformationsGenerales() {
+    if (pendingRead) return pendingRead;
     initFirebase();
-    return getDb().collection(COLLECTION).doc(DOC_ID).get().then(function (doc) {
+    pendingRead = getDb().collection(COLLECTION).doc(DOC_ID).get().then(function (doc) {
       if (!doc.exists) return null;
       return { id: doc.id, ...doc.data() };
+    }).then(function (data) {
+      pendingRead = null;
+      return data;
+    }, function (error) {
+      pendingRead = null;
+      throw error;
     });
+    return pendingRead;
   }
 
   /**

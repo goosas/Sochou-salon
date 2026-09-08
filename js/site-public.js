@@ -26,6 +26,12 @@
     return Number(value || 0).toLocaleString("fr-FR");
   }
 
+  function resolveSitePath(path) {
+    var manifest = document.querySelector('link[rel="manifest"]');
+    var base = manifest ? manifest.href : document.baseURI;
+    return new URL(path, base).href;
+  }
+
   /* ---------- INFORMATIONS GÉNÉRALES ---------- */
   function loadInformations() {
     if (!window.SochouInformations) return;
@@ -151,7 +157,7 @@
           '<p>' + escapeHtml(service.description) + '</p>' +
           (service.prix ? '<p class="service-price"><strong>' + formatPrice(service.prix) + ' FCFA</strong></p>' : '') +
           (service.duree ? '<p class="service-duree">Durée : ' + escapeHtml(service.duree) + '</p>' : '') +
-          '<a class="btn btn-dark" href="pages/contact.html">Réserver</a>' +
+          '<a class="btn btn-dark" href="' + escapeHtml(resolveSitePath("pages/contact.html")) + '">Réserver</a>' +
         '</div>';
       container.appendChild(card);
     });
@@ -314,8 +320,23 @@
 
   /* ---------- INITIALISATION ---------- */
   function init() {
-    if (!window.SochouFirebase) return;
-    try { initFirebase(); } catch (e) { return; }
+    if (!window.SochouFirebase) {
+      console.error("[SochouPublic] SochouFirebase non disponible. Vérifiez que config.js est chargé.");
+      return;
+    }
+
+    // Vérifier que le SDK Firebase est chargé
+    if (!window.SochouFirebase.isFirebaseSdkLoaded()) {
+      console.error("[SochouPublic] SDK Firebase non chargé. Vérifiez les scripts Firebase dans le HTML.");
+      return;
+    }
+
+    try {
+      initFirebase();
+    } catch (e) {
+      console.error("[SochouPublic] Échec de l'initialisation Firebase:", e);
+      return;
+    }
 
     loadInformations();
     loadServices();

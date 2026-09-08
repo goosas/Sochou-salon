@@ -1,11 +1,14 @@
 {
   "name": "SOCHOU HAIR BEAUTY SALON",
   "short_name": "SOCHOU Salon",
+  "id": "./index.html",
   "description": "Salon de beauté moderne spécialisé dans la coiffure, les tresses, les perruques, les soins capillaires, la manucure, la pédicure et les produits esthétiques.",
   "lang": "fr",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "prefer_related_applications": false,
   "orientation": "any",
   "background_color": "#FAFAFA",
   "theme_color": "#1A1A1A",
@@ -31,6 +34,32 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Prendre rendez-vous",
+      "short_name": "Rendez-vous",
+      "url": "./pages/contact.html",
+      "icons": [
+        {
+          "src": "icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Voir la galerie",
+      "short_name": "Galerie",
+      "url": "./pages/galerie.html",
+      "icons": [
+        {
+          "src": "icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

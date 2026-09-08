@@ -22,21 +22,35 @@ let db = null;
 let auth = null;
 
 /**
+ * Vérifie si le SDK Firebase est chargé.
+ * @returns {boolean}
+ */
+function isFirebaseSdkLoaded() {
+  return typeof firebase !== "undefined" && typeof firebase.initializeApp === "function";
+}
+
+/**
  * Initialise Firebase si ce n'est pas déjà fait.
  * Retourne { app, db, auth }
  */
 function initFirebase() {
   if (app) return { app, db, auth };
 
-  if (typeof firebase === "undefined") {
+  if (!isFirebaseSdkLoaded()) {
+    console.error("[SochouFirebase] SDK Firebase non chargé. Vérifiez que les scripts Firebase sont inclus dans la page.");
     throw new Error("Firebase SDK non chargé. Incluez les scripts Firebase dans votre HTML.");
   }
 
-  app = firebase.initializeApp(firebaseConfig);
-  db = firebase.firestore();
-  auth = firebase.auth();
-
-  return { app, db, auth };
+  try {
+    app = firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    auth = firebase.auth();
+    console.log("[SochouFirebase] Firebase initialisé avec succès.");
+    return { app, db, auth };
+  } catch (error) {
+    console.error("[SochouFirebase] Erreur lors de l'initialisation de Firebase:", error);
+    throw error;
+  }
 }
 
 /**
@@ -60,5 +74,6 @@ window.SochouFirebase = {
   initFirebase,
   getDb,
   getAuth,
+  isFirebaseSdkLoaded,
   firebaseConfig
 };

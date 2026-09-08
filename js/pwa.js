@@ -8,8 +8,10 @@
 (function (window) {
   "use strict";
 
-  var INSTALLED =
-    window.matchMedia && window.matchMedia("(display-mode: standalone)").matches;
+  var INSTALLED = Boolean(
+    (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+    window.navigator.standalone === true
+  );
 
   /* ---------- 1. Enregistrement du Service Worker ---------- */
   function registerServiceWorker() {

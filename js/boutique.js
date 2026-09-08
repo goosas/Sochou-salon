@@ -87,7 +87,7 @@ if (orderModal) {
     orderQuantity.value = 1;
     updateTotal();
     openModal(orderModal);
-    setTimeout(() => orderPhone.focus(), 80);
+    requestAnimationFrame(() => orderPhone.focus());
   };
 
   // Délégation d'événements pour les boutons Commander

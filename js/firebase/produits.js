@@ -10,6 +10,7 @@
   const { getDb, initFirebase } = window.SochouFirebase;
 
   const COLLECTION = "produit";
+  const pendingReads = {};
 
   /**
    * Récupère tous les produits.
@@ -17,6 +18,9 @@
    * @returns {Promise<Array>}
    */
   function getProduits(actifsUniquement) {
+    const cacheKey = actifsUniquement ? "actifs" : "tous";
+    if (pendingReads[cacheKey]) return pendingReads[cacheKey];
+
     initFirebase();
     let query = getDb().collection(COLLECTION).orderBy("ordre", "asc");
 
@@ -24,13 +28,20 @@
       query = query.where("actif", "==", true);
     }
 
-    return query.get().then(function (snapshot) {
+    pendingReads[cacheKey] = query.get().then(function (snapshot) {
       const results = [];
       snapshot.forEach(function (doc) {
         results.push({ id: doc.id, ...doc.data() });
       });
       return results;
+    }).then(function (results) {
+      delete pendingReads[cacheKey];
+      return results;
+    }, function (error) {
+      delete pendingReads[cacheKey];
+      throw error;
     });
+    return pendingReads[cacheKey];
   }
 
   /**

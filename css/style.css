@@ -19,7 +19,7 @@
   --radius-lg: 24px;
   --container: 1180px;
   --header-height: 82px;
-  --transition: 220ms ease;
+  --transition: 140ms ease;
 }
 
 /* Reset */
@@ -682,7 +682,7 @@ textarea {
   overflow: auto;
   padding: 2rem;
   position: relative;
-  transform: translateY(14px) scale(0.98);
+  transform: translateY(8px) scale(0.99);
   transition: transform var(--transition);
   width: min(100%, 720px);
 }
@@ -1595,7 +1595,7 @@ object {
   overflow: auto;
   padding: 2rem;
   position: relative;
-  transform: translateY(14px) scale(0.98);
+  transform: translateY(8px) scale(0.99);
   transition: transform var(--transition);
   width: min(100%, 720px);
 }
